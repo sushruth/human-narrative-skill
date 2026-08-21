@@ -11,7 +11,7 @@ Same rule set in both. The split exists because "govern this one piece of prose"
 
 ## Install (skills CLI)
 
-If you have [`npx skills`](https://github.com/vercel-labs/skills) (Vercel Labs' agent-skills package manager, supports Claude Code, Codex, Cursor, Gemini CLI, opencode, and others):
+If you have [`npx skills`](https://github.com/vercel-labs/skills):
 
 ```bash
 npx skills add sushruth/human-narrative-skill
