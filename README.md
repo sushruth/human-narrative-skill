@@ -7,6 +7,8 @@ A prose/reasoning style rule set that strips AI writing tells — moralizing end
 
 Same rule set in both. The split exists because "govern this one piece of prose" and "govern how I think and talk for the rest of this session" are different scopes — the always-on style covers the one the on-demand skill can't.
 
+**This gets you closer, not there.** An LLM applying these rules will read less like a template and more like someone wrote it — but it's still a model predicting tokens, not a person with a history and a stake in what it's saying. The tells this skill targets (uniform rhythm, hedge-ratcheting, cliché vocabulary) are the detectable ones. Whatever makes human writing human past that point isn't a rule you can hand to a model.
+
 ## Install (automated)
 
 Paste this to your agent and let it do the rest:
