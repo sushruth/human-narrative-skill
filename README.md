@@ -9,41 +9,46 @@ Same rule set in both. The split exists because "govern this one piece of prose"
 
 ## Install
 
-Plain Markdown with YAML frontmatter — portable to anything that reads a file as system-level instructions.
+Copy-paste one of these. `RAW` is this repo's raw content base:
 
-### Claude Code
-
-**As a skill** (on demand, or auto-triggered when the description matches):
 ```bash
-mkdir -p ~/.claude/skills/human-narrative
-cp SKILL.md ~/.claude/skills/human-narrative/SKILL.md
+RAW=https://raw.githubusercontent.com/sushruth/human-narrative-skill/main
 ```
-Project-scoped instead of user-scoped: same file at `.claude/skills/human-narrative/SKILL.md` inside the repo.
 
-**As an output style** (session-wide, reasoning included):
+**Claude Code — skill (user-level, on demand):**
 ```bash
-mkdir -p ~/.claude/output-styles
-cp output-style.md ~/.claude/output-styles/human-narrative.md
+mkdir -p ~/.claude/skills/human-narrative && curl -fsSL $RAW/SKILL.md -o ~/.claude/skills/human-narrative/SKILL.md
 ```
-Then `/output-style` → pick `Human Narrative`, or `/output-style human-narrative` directly.
 
-### Claude (claude.ai / Claude Desktop)
+**Claude Code — skill (project-level):**
+```bash
+mkdir -p .claude/skills/human-narrative && curl -fsSL $RAW/SKILL.md -o .claude/skills/human-narrative/SKILL.md
+```
 
-Settings → Capabilities → Skills → upload `SKILL.md`. No output-style equivalent there; the on-demand skill is the closest fit.
+**Claude Code — output style (session-wide, governs reasoning too):**
+```bash
+mkdir -p ~/.claude/output-styles && curl -fsSL $RAW/output-style.md -o ~/.claude/output-styles/human-narrative.md
+```
+Then run `/output-style human-narrative` to turn it on.
 
-### Codex CLI / other AGENTS.md-driven agents
+**Codex CLI / opencode (AGENTS.md):**
+```bash
+curl -fsSL $RAW/SKILL.md | awk 'BEGIN{n=0} /^---$/{n++; next} n>=2' >> AGENTS.md
+```
 
-Paste the body of `SKILL.md` (below the frontmatter) into `AGENTS.md`. No skill-loading mechanism, so it runs always-on instead of on-demand.
+**Gemini CLI (GEMINI.md):**
+```bash
+curl -fsSL $RAW/SKILL.md | awk 'BEGIN{n=0} /^---$/{n++; next} n>=2' >> GEMINI.md
+```
 
-### Gemini CLI
+**Cursor (project rule):**
+```bash
+mkdir -p .cursor/rules && curl -fsSL $RAW/SKILL.md -o .cursor/rules/human-narrative.mdc
+```
 
-Same move, into `GEMINI.md`.
+**Claude.ai / Claude Desktop:** no CLI path — Settings → Capabilities → Skills → upload `SKILL.md`.
 
-### Cursor / any rules-file agent
-
-Save as a project rule, e.g. `.cursor/rules/human-narrative.mdc`.
-
-Anything else: drop the rules (minus frontmatter) into whatever file that tool treats as a system prompt or persistent context.
+**Any other agent:** pipe `SKILL.md` through the same `awk` line above (strips the YAML frontmatter) into whatever file it treats as persistent instructions.
 
 ## Sources
 
