@@ -9,9 +9,18 @@ Same rule set in both. The split exists because "govern this one piece of prose"
 
 **This gets you closer, not there.** An LLM applying these rules will read less like a template and more like someone wrote it — but it's still a model predicting tokens, not a person with a history and a stake in what it's saying. The tells this skill targets (uniform rhythm, hedge-ratcheting, cliché vocabulary) are the detectable ones. Whatever makes human writing human past that point isn't a rule you can hand to a model.
 
+## Install (skills CLI)
+
+If you have [`npx skills`](https://github.com/vercel-labs/skills) (Vercel Labs' agent-skills package manager, supports Claude Code, Codex, Cursor, Gemini CLI, opencode, and others):
+
+```bash
+npx skills add sushruth/human-narrative-skill
+```
+It auto-detects which of those agents you have installed and drops `SKILL.md` into each one's skills directory. Add `-a claude-code -a opencode` to target specific agents, or `-g` for a global (not per-project) install.
+
 ## Install (automated)
 
-Paste this to your agent and let it do the rest:
+No `skills` CLI, or want your agent to just handle it — paste this and let it do the rest:
 
 ```
 Install the "human-narrative" skill from https://github.com/sushruth/human-narrative-skill.
