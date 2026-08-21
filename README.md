@@ -74,21 +74,20 @@ curl -fsSL $RAW/SKILL.md | awk 'BEGIN{n=0} /^---$/{n++; next} n>=2' >> AGENTS.md
 
 ## Sources
 
-Two things formed this.
+- **[StoryScope: Investigating idiosyncrasies in AI fiction](https://arxiv.org/abs/2604.03136)** — Russell, Rajendhran, Pham, Iyyer, Wieting (University of Maryland & Google DeepMind, COLM 2026). AI and human fiction separate on discourse-level narrative structure — character agency, chronological discontinuity — not surface vocabulary: 93.2% macro-F1 on human-vs-AI detection from narrative features alone, with AI stories clustering tightly and human stories spread out. The skill's name and its frontmatter's "StoryScope-derived rules" point here directly; it's why AI-tells get treated as structural rather than lexical, and it grounds the "break structural symmetry" rules.
 
-**[StoryScope: Investigating idiosyncrasies in AI fiction](https://arxiv.org/abs/2604.03136)** — Jenna Russell, Rishanth Rajendhran, Chau Minh Pham, Mohit Iyyer, John Wieting (University of Maryland & Google DeepMind, COLM 2026). Shows AI and human fiction separate cleanly on discourse-level narrative choices — character agency, chronological structure — rather than surface style: 93.2% macro-F1 on human-vs-AI detection from narrative features alone, with AI stories clustering tightly while human stories spread out. This is the frontmatter's "StoryScope-derived rules" and the reason the skill targets structural sameness, not just banned words.
+- **["Can You Detect the Difference?"](https://arxiv.org/abs/2507.10475)** — Tarım & Onan, 2025. (Some citations attach a different title to this arXiv ID — "Feature-Based Detection of AI-Generated Text: An Analysis of Stylometric and Perplexity Markers." The title above is the real one.) Quantifies burstiness — variance in sentence-level perplexity and length — and finds human writing high-burstiness, mixing short and long sentences, while autoregressive AI output stays uniform. Direct source for "alternate short punchy statements with longer multi-clause ones."
 
-**A second skill, `human-thought-and-expression`**, merged in later, brought in the AI-text-detection/stylometry literature below. Checked each against the actual paper rather than trusting the list at face value:
+- **[A linguistic comparison between human- and AI-generated content](https://pmc.ncbi.nlm.nih.gov/articles/PMC12969083/)** — Rodrigues, Sturm & Pinheiro, *iScience*, 2026. Same rhythm rule, different method: LIWC/SAGE stylistic analysis instead of perplexity. Human text has a broad, flat sentence-length distribution; AI text clusters near its own mean.
 
-| Citation | Status |
-|---|---|
-| [DetectGPT](https://arxiv.org/abs/2301.11305) — Mitchell et al., 2023 | Confirmed |
-| [Fast-DetectGPT](https://arxiv.org/abs/2310.05130) — Bao et al., 2023 | Confirmed |
-| [Binoculars](https://arxiv.org/abs/2401.12070) — Hans et al., 2024 | Confirmed |
-| ["Feature-Based Detection of AI-Generated Text..."](https://arxiv.org/abs/2507.10475) — Tarım & Onan, 2025 | **Title fabricated.** Real title: "Can You Detect the Difference?" — same authors/ID/year, narrower paper (diffusion vs. autoregressive text, not a general stylometry survey) |
-| [A Linguistic Comparison Between Human- and AI-Generated Content](https://pmc.ncbi.nlm.nih.gov/articles/PMC12969083/) — Rodrigues, Sturm & Pinheiro, *iScience*, 2026 | Confirmed |
-| [Linguistic Characteristics of AI-Generated Text: A Survey](https://arxiv.org/abs/2510.05136) — Terčon & Dobrovoljc, 2025 | Confirmed |
-| [Stylometry Recognizes Human and LLM-Generated Texts in Short Samples](https://arxiv.org/abs/2507.00838) — Przystalski, Argasiński, Grabska-Gradzińska & Ochab, 2025 | Confirmed |
-| [What Are Common Phrases That AI Uses?](https://deceptioner.site/blog/what-are-common-phrases-that-ai-uses) — DecEptioner | Real, but a blog post, not a paper |
+- **[DetectGPT: Zero-Shot Machine-Generated Text Detection using Probability Curvature](https://arxiv.org/abs/2301.11305)** — Mitchell, Lee, Khazatsky, Manning & Finn, 2023. AI text sits at local maxima of predictability in a model's probability function; human text varies far more in token-level predictability. Conceptual footing for the anti-monotony rules — not something the skill can measure directly, but the reason monotony reads as synthetic.
 
-Seven of eight check out. One has the right authors, arXiv ID, and year attached to a title that doesn't exist.
+- **[Fast-DetectGPT: Efficient Zero-Shot Detection of Machine-Generated Text via Conditional Probability Curvature](https://arxiv.org/abs/2310.05130)** — Bao, Zhao, Teng, Yang & Zhang, 2023. Machine output clusters in predictable word-choice distributions. Predictable word choice is generic word choice — the argument behind preferring concrete nouns and verbs over generic Latinate abstractions.
+
+- **[Spotting LLMs With Binoculars: Zero-Shot Detection of Machine-Generated Text](https://arxiv.org/abs/2401.12070)** — Hans, Schwarzschild, Cherepanova, Kazemi, Saha, Goldblum, Geiping & Goldstein, 2024. LLM text holds low cross-perplexity between two related models — too easy to predict for a model like the one that wrote it. Same predictability logic, independent method.
+
+- **[Linguistic Characteristics of AI-Generated Text: A Survey](https://arxiv.org/abs/2510.05136)** — Terčon & Dobrovoljc, 2025. Covers structural symmetry, predictable paragraph weighting, reduced lexical diversity, hedging patterns — feeds "break structural symmetry," "no flat escalation of hedging," and part of the vocabulary list at once.
+
+- **[Stylometry recognizes human and LLM-generated texts in short samples](https://arxiv.org/abs/2507.00838)** — Przystalski, Argasiński, Grabska-Gradzińska & Ochab, *Expert Systems with Applications*, 2025. Function-word distributions and clause patterns separate human from LLM text in samples as short as ten sentences; LLM text shows more grammatical standardization. Why the rules apply to a three-line PR comment, not just long documents.
+
+- **["What Are Common Phrases That AI Uses?"](https://deceptioner.site/blog/what-are-common-phrases-that-ai-uses)** — DecEptioner (Shadab Sayeed). A blog post, not a paper, and the most literal source here: the anti-cliché list — delve, testament, tapestry, crucial, pivotal, foster, interplay, landscape, moreover, furthermore, "not only... but also" — comes from its catalog almost word for word.
