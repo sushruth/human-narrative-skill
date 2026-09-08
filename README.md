@@ -1,13 +1,15 @@
 # human-narrative
 
-You can tell when text was written by an LLM. Same rhythm every sentence, hedges that ratchet up line by line, a closing paragraph that restates what you just read, and words like "delve" and "tapestry" showing up in places no human would put them. This is a rule set that targets those specific tells and tries to write around them.
+Every model writes the same way. Sentences all one length, a hedge on each line that gets softer than the last, a final paragraph that summarizes the paragraph before it, "delve" where nobody would say delve. Readers pick this up in a few lines, and once they have, they stop reading the text and start reading the tell.
 
-It doesn't make output indistinguishable from something a person wrote — it attempts to close some of the gap. What's left past that (a real history, a stake in what's being said) isn't something a rule file can hand to a model.
+This is a rule set for Claude Code that names those patterns and steers the model away from them. Install it if you have Claude writing PR descriptions, docs, or messages that other people read, and you're tired of rewriting the output before you send it.
 
-Ships as two files, same rules, different scope:
+It narrows the gap. It doesn't close it. The mechanical tells are fixable by rule; a real history and a stake in what's being said aren't, and nothing in a markdown file changes that.
 
-- **`SKILL.md`** — invoke on demand for one piece of writing: a PR description, a doc, a message.
-- **`output-style.md`** — Claude Code output style, applies for the whole session, reasoning included, not just the final text.
+Two files, one rule set:
+
+- **`SKILL.md`** — invoke it for a single piece of writing. A PR body, a doc, a Slack message.
+- **`output-style.md`** — a Claude Code output style. Once set, it holds for the whole session, including the model's reasoning, not just what it prints at the end.
 
 ## Install (skills CLI)
 
