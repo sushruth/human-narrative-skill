@@ -1,13 +1,13 @@
 # human-narrative
 
-A prose/reasoning style rule set that strips AI writing tells — moralizing endings, hedge-ratcheting, uniform sentence rhythm, the "delve/crucial/tapestry" vocabulary cluster — and replaces them with plain, direct, human-register output. Ships in two forms:
+You can tell when text was written by an LLM. Same rhythm every sentence, hedges that ratchet up line by line, a closing paragraph that restates what you just read, and words like "delve" and "tapestry" showing up in places no human would put them. This is a rule set that targets those specific tells and tries to write around them.
 
-- **`SKILL.md`** — a Claude Code skill, invoked on demand for a specific writing task (PR description, doc, message).
-- **`output-style.md`** — a Claude Code output style, applied for the whole session including internal reasoning, not just the final text.
+It doesn't make output indistinguishable from something a person wrote — it attempts to close some of the gap. What's left past that (a real history, a stake in what's being said) isn't something a rule file can hand to a model.
 
-Same rule set in both. The split exists because "govern this one piece of prose" and "govern how I think and talk for the rest of this session" are different scopes — the always-on style covers the one the on-demand skill can't.
+Ships as two files, same rules, different scope:
 
-**This gets you closer, not there.** An LLM applying these rules will read less like a template and more like someone wrote it — but it's still a model predicting tokens, not a person with a history and a stake in what it's saying. The tells this skill targets (uniform rhythm, hedge-ratcheting, cliché vocabulary) are the detectable ones. Whatever makes human writing human past that point isn't a rule you can hand to a model.
+- **`SKILL.md`** — invoke on demand for one piece of writing: a PR description, a doc, a message.
+- **`output-style.md`** — Claude Code output style, applies for the whole session, reasoning included, not just the final text.
 
 ## Install (skills CLI)
 
