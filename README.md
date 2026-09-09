@@ -1,6 +1,6 @@
 # human-narrative
 
-LLM-generated text can be a bit too dry for human reading. This skill helps with that a little.
+LLM-generated text can be a bit too dry for human reading. This skill helps improve that a little.
 
 ```bash
 npx skills add sushruth/human-narrative-skill
