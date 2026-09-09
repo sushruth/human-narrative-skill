@@ -4,7 +4,7 @@ A rule set for the writing an agent produces on my behalf: PR descriptions, docs
 
 I wrote it because I kept editing the same things out of my own output before sending it. Sentences all about the same length. A hedge on every line. A closing paragraph that restated the one above it. "Delve." None of it was wrong, exactly, but I was rewriting most of it by hand, so I started writing the corrections down as rules instead.
 
-The rules address the mechanical habits. They don't give the text a point of view, or a history with the problem it describes, and a markdown file isn't going to. What's left after applying them is still model output; it just needs less cleanup.
+The rules address the mechanical habits: sentence rhythm, hedging, headers and bullets reached for by reflex, and the order information arrives in inside a paragraph. They don't give the text a point of view, or a history with the problem it describes, and a markdown file isn't going to. What's left after applying them is still model output; it just needs less cleanup.
 
 Two files:
 
@@ -13,17 +13,17 @@ Two files:
 
 ## Before and after
 
-Same prompt to the Claude CLI both times: "Write a short paragraph explaining why a team decided to move their background jobs from cron to a task queue." First with nothing else in the system prompt, then with this rule set added. One run each, not cherry-picked from a batch. Whether the second one is better is for you to decide.
+Same prompt to the Claude CLI (Sonnet) both times: "Write a short paragraph explaining why a team decided to move their background jobs from cron to a task queue." First with nothing else in the system prompt, then with this rule set added. One run each, not cherry-picked from a batch. Whether the second one is better is for you to decide.
 
 **Without:**
 
-> A team typically moves background jobs from cron to a task queue once cron's limitations start costing real time: a cron job that fails silently just doesn't run again until the next scheduled tick, and there's no built-in retry, backoff, or alerting to catch that failure automatically. As job volume grows, cron also has no easy way to distribute work across multiple machines or throttle concurrency, so a single overloaded box becomes a bottleneck or single point of failure. A task queue adds visibility — you can see what's pending, running, succeeded, or failed — plus automatic retries with backoff, dead-letter handling for jobs that keep failing, and the ability to scale workers horizontally as load increases. It also enables on-demand and event-triggered jobs (not just fixed-interval ones), which cron can't express well. Teams often make the jump specifically after an incident where a cron failure went unnoticed for hours or days, since that's the moment "it usually works" stops being good enough. The tradeoff is added infrastructure (a broker, worker processes, monitoring) but most teams decide that's worth it for the reliability and observability gains once they're running jobs that matter to the business.
+> Cron jobs run on a fixed schedule regardless of load, so a burst of work either piles up behind a single run or gets dropped if the job overlaps with itself. A task queue decouples "when work is created" from "when it runs" — jobs get enqueued as they happen, multiple workers pull from the queue in parallel, and failed jobs retry individually instead of rerunning (or silently skipping) an entire batch. That gave the team backpressure, retries, and visibility into per-job failures that cron's fire-and-forget model never had.
 
 **With:**
 
-> The cron jobs worked fine until they didn't: a single node running the scheduler meant that box going down silently dropped every job scheduled for that window, and nobody found out until a customer asked where their weekly report was. Retries didn't exist either — a job that failed halfway through just failed, with no record of state beyond a stack trace in the logs. As the number of jobs grew, so did the contention: three cron entries all kicking off at 2am would fight over the same database connections, and there was no way to prioritize a time-sensitive job over a bulk cleanup task. Moving to a task queue (they picked Sidekiq) gave them retries with backoff, visibility into what's queued versus running versus failed, and the ability to scale workers horizontally instead of praying one box could keep up. It also let them decouple "when does this get triggered" from "how many workers process it," so a spike in job volume no longer meant everything backed up behind a single cron tick. The migration took about three weeks, mostly rewriting jobs to be idempotent since the queue could now retry them.
+> Cron jobs kept stepping on each other. A slow job would still be running when the next cron tick fired, so two copies hit the same rows at once and duplicated work. Nothing tracked which jobs had failed, so a bad run just vanished until someone noticed missing data downstream. A task queue fixed both: workers pull one job at a time so overlapping runs stop happening, and failed jobs sit in the queue with a retry count instead of disappearing. It also let the team scale workers independently of the job schedule, instead of tuning cron intervals to guess at load.
 
-One thing worth noticing: the second paragraph invents details (Sidekiq, three weeks, a weekly report). The prompt asked for a story about a team that doesn't exist, so that's the only way to be concrete. For a PR description the facts are already there and the rules just ask for them to be used.
+The second paragraph invents its details. The overlapping runs and the missing data downstream come from nowhere, because the prompt asked about a team that doesn't exist and concreteness has no other source. For a PR description the facts are already there and the rules just ask for them to be used.
 
 ## Install with the skills CLI
 
