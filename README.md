@@ -1,12 +1,12 @@
 # human-narrative
 
-A `SKILL.md` file of writing rules for coding agents. When the agent writes something a person will read, such as a PR description or a doc section, it follows these rules instead of its defaults. The rules describe habits that are common in model output and rare in human writing, and say what to do instead.
+LLM-generated text can be a bit too dry for human reading. This skill helps with that a little.
 
 ```bash
 npx skills add sushruth/human-narrative-skill
 ```
 
-Works in Claude Code, Codex CLI, opencode, Cursor, and Gemini CLI. `output-style.md` holds the same rules as a Claude Code output style, which applies them to a whole session including the model's reasoning.
+Works in Claude Code, Codex CLI, opencode, Cursor, and Gemini CLI. `output-style.md` holds the same rules as a Claude Code output style, for a whole session including the model's reasoning.
 
 ## Before and after
 
