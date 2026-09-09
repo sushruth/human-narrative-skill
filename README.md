@@ -1,12 +1,12 @@
 # human-narrative
 
-Writing rules for LLM agents. They cut the tells: uniform sentence length, a hedge on every line, headers and bullets reached for by reflex, "delve," a closing paragraph that restates the one above it.
+A `SKILL.md` file of writing rules for coding agents. When the agent writes something a person will read, such as a PR description or a doc section, it follows these rules instead of its defaults. The rules describe habits that are common in model output and rare in human writing, and say what to do instead.
 
 ```bash
 npx skills add sushruth/human-narrative-skill
 ```
 
-Two files. `SKILL.md` is the rules as a skill, invoked per piece of writing, and works in Claude Code, Codex CLI, opencode, Cursor, and Gemini CLI. `output-style.md` is the same rules as a Claude Code output style, applied to a whole session including the model's reasoning.
+Works in Claude Code, Codex CLI, opencode, Cursor, and Gemini CLI. `output-style.md` holds the same rules as a Claude Code output style, which applies them to a whole session including the model's reasoning.
 
 ## Before and after
 
@@ -24,7 +24,7 @@ The second paragraph invents its details. The prompt asked about a team that doe
 
 ## What it changes, and what it doesn't
 
-The rules bite on explanatory prose of a paragraph or more: an onboarding doc section, a design note, a "why did we do it this way" answer. There the baseline reaches for sub-headers and bullet lists, hedges with "typically" and "often," and stays at the category level. With the rules it writes paragraphs, names a specific tool or failure, and ends on the real tradeoff instead of an imperative. That held across Claude, Codex, and Gemini CLIs.
+The rules have a measurable effect on explanatory prose of a paragraph or more: an onboarding doc section, a design note, a "why did we do it this way" answer. Without them the model splits that into sub-headers and bullet lists, hedges with "typically" and "often," and stays at the category level. With them it writes paragraphs, names a specific tool or failure, and ends on the real tradeoff instead of an imperative. That held across Claude, Codex, and Gemini CLIs.
 
 Below about three sentences there is nothing for the rules to change. A commit subject, a one-sentence PR description, or a three-line Slack reply comes out the same with or without them. The banned em-dash list ("does X — A, B, C — so that Y") is model-dependent: Codex and Gemini drop it, Sonnet and DeepSeek keep it even with the rule in front of them.
 
