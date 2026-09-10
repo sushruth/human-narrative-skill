@@ -6,7 +6,7 @@ Text written by an agent costs more to read than it needs to. This skill changes
 npx skills add sushruth/human-narrative-skill
 ```
 
-The command installs the skill into every coding agent it finds on the machine. Add `-g` to install under your home folder instead of the current project, or `-a claude-code` to pick one agent. To remove it, delete the `human-narrative` folder it created.
+The command installs the skill into every coding agent it finds on the machine. Add `-g` to install under your home folder instead of the current project, or `-a claude-code` to pick one agent. To remove it, delete the `human-narrative` folder it created. For an agent the CLI doesn't know, the whole skill is the one file, `SKILL.md`.
 
 ## What changes
 
@@ -46,18 +46,6 @@ With the skill:
 > ```
 
 The first opens with what the tool is. The second opens with the situation the reader is already in, then says what the tool does about it.
-
-## Install by hand
-
-Both files are at `https://raw.githubusercontent.com/sushruth/human-narrative-skill/main`.
-
-- **Claude Code**: `~/.claude/skills/human-narrative/SKILL.md` for every project, or `.claude/skills/human-narrative/SKILL.md` for one.
-- **Codex CLI**: `~/.codex/skills/human-narrative/SKILL.md`, or `.agents/skills/human-narrative/SKILL.md` for one project.
-- **opencode**: `~/.config/opencode/skills/human-narrative/SKILL.md` or `.opencode/skills/human-narrative/SKILL.md`. opencode also reads the Claude Code and Codex paths.
-- **Gemini CLI**: `~/.gemini/skills/human-narrative/SKILL.md`.
-- **Cursor**: the body of `SKILL.md` as `.cursor/rules/human-narrative.mdc`, with `alwaysApply: true` in the frontmatter.
-- **Claude.ai and Claude Desktop**: zip a folder named `human-narrative` containing `SKILL.md` and upload it under Skills in settings.
-- **Anything else**: paste the body of `SKILL.md`, without its frontmatter, into `AGENTS.md`.
 
 ## Whole-session version for Claude Code
 
