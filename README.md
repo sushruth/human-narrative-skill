@@ -1,66 +1,60 @@
 # human-narrative
 
-Coding agents describe their own changes the way a brochure would. This skill hands them a different set of writing rules.
+Text written by an agent costs more to read than it needs to. This skill changes how the agent writes anything a person will read, so the information arrives in the order the reader needs it and each sentence follows from the last. The result is noticeably easier to follow.
 
 ```bash
 npx skills add sushruth/human-narrative-skill
 ```
 
-The command finds the coding agents installed on the machine and copies `SKILL.md` into each one's skill folder. Add `-g` to install for the user instead of the current project, or `-a claude-code -a codex` to name the agents yourself.
+The command installs the skill into every coding agent it finds on the machine. Add `-g` to install under your home folder instead of the current project, or `-a claude-code` to pick one agent. To remove it, delete the `human-narrative` folder it created.
 
-## What the rules cover
+## What changes
 
-Once loaded, the skill applies to anything a person will read: PR descriptions, commit messages, code comments, docs, and chat replies. The file is about 15 KB and the agent takes all of it into context whenever the skill is active. The rules are about order and size more than about vocabulary.
+Replies, docs, PR descriptions, code comments, and commit messages come out in a different shape.
 
-- **Order.** The first line names the reader's situation. The thing they came for comes second. Mechanism, examples, and caveats come after, if at all.
-- **Size.** Facts are stated flat, with no qualifier. Judgments carry a size word. "Verified" is reserved for checks that were actually run.
-- **Chaining.** Each sentence opens on something the previous sentence put down. Paragraphs break where the reader's question changes, so they come out uneven.
-- **Endings.** No moral, no closing summary. Open questions stay open.
-- **Ban list.** The usual filler words, and the mid-sentence run of examples set off by em-dashes or parentheses.
+- The first line says where the reader is. What they came for is next. Explanation comes after, if at all.
+- Facts are stated flat. Judgments carry a size word. "Verified" appears only when something was run.
+- Nothing ends on a moral or a summary, and open questions are left open.
+- The usual filler words are banned, along with the mid-sentence run of examples between em-dashes.
+
+Code is left alone. The rules apply to prose, and the Claude Code output style keeps the coding instructions in place.
+
+The skill is not built to pass AI detectors. Several of its sources are detector papers, and they are used to describe what model text does, not as a target to beat.
+
+The skill file is about 16 KB. The agent carries all of it in context while the skill is active.
 
 ## Install by hand
 
 Both files are at `https://raw.githubusercontent.com/sushruth/human-narrative-skill/main`.
 
-- **Claude Code**: save `SKILL.md` to `~/.claude/skills/human-narrative/SKILL.md` for every project, or to `.claude/skills/human-narrative/SKILL.md` for one.
-- **Claude Code output style**: save `output-style.md` to `~/.claude/output-styles/human-narrative.md` and run `/output-style human-narrative`. The style governs the whole session, reasoning included, and keeps Claude Code's own coding instructions in place.
-- **Codex CLI**: save `SKILL.md` to `~/.codex/skills/human-narrative/SKILL.md` for every project, or to `.agents/skills/human-narrative/SKILL.md` for one.
-- **opencode**: save `SKILL.md` to `~/.config/opencode/skills/human-narrative/SKILL.md` or `.opencode/skills/human-narrative/SKILL.md`. opencode also reads the Claude Code and Codex paths above.
-- **Gemini CLI**: save `SKILL.md` to `~/.gemini/skills/human-narrative/SKILL.md`.
-- **Cursor**: save the body of `SKILL.md` as `.cursor/rules/human-narrative.mdc` with `alwaysApply: true` in the frontmatter.
+- **Claude Code**: `~/.claude/skills/human-narrative/SKILL.md` for every project, or `.claude/skills/human-narrative/SKILL.md` for one.
+- **Codex CLI**: `~/.codex/skills/human-narrative/SKILL.md`, or `.agents/skills/human-narrative/SKILL.md` for one project.
+- **opencode**: `~/.config/opencode/skills/human-narrative/SKILL.md` or `.opencode/skills/human-narrative/SKILL.md`. opencode also reads the Claude Code and Codex paths.
+- **Gemini CLI**: `~/.gemini/skills/human-narrative/SKILL.md`.
+- **Cursor**: the body of `SKILL.md` as `.cursor/rules/human-narrative.mdc`, with `alwaysApply: true` in the frontmatter.
 - **Claude.ai and Claude Desktop**: zip a folder named `human-narrative` containing `SKILL.md` and upload it under Skills in settings.
 - **Anything else**: paste the body of `SKILL.md`, without its frontmatter, into `AGENTS.md`.
 
-## Before and after
+## Whole-session version for Claude Code
 
-One prompt to Claude Code running Sonnet, one run with the skill and one without:
-
-> In three or four sentences, explain to a new teammate why the team uses feature flags instead of long-lived feature branches.
-
-| Without the skill | With the skill |
-| :--- | :--- |
-| Feature flags let you merge small changes to main continuously, so code stays integrated and tested instead of drifting apart in a branch for weeks. Long-lived branches build up merge conflicts that get worse the longer they live, and they hide bugs until one big scary merge at the end. Flags also let you ship code dark, then turn features on for specific users or roll back instantly without a redeploy — a branch merge has no equivalent "undo." Net effect: smaller diffs, faster feedback, safer rollout. | Long-lived feature branches drift from main for weeks, so merging one back means untangling conflicts against everything else that shipped in the meantime. Feature flags skip that: the code merges to main right away, sits behind a flag, and turns on for real users once it's ready — no big-bang merge, no stale branch. That also means you can ship a half-finished feature dark and test it in production before flipping it on, and roll it back by flipping the flag instead of reverting a merge. The tradeoff is you carry flag-check code and have to remember to delete flags once a feature is fully rolled out — branches don't leave that residue, but they cost more at merge time. |
-
-Without the skill the reply closes on a slogan. With the skill each sentence picks up where the last one stopped, and the final sentence is the tradeoff. The em-dashes survived in both.
-
-## What changed, and what didn't
-
-One run per prompt in Claude Code, Codex CLI, opencode, and Gemini CLI, each with and without the skill loaded. Single runs, so read these as observations rather than measurements.
-
-- Explanations a paragraph or longer lose their sub-headers and hedge words, and end on a tradeoff instead of a summary.
-- Text under three sentences looks the same either way. Commit subjects, one-line PR descriptions, and short chat replies all fell in that bucket.
-- Codex and Gemini stop stringing examples between em-dashes. Sonnet and DeepSeek keep doing it with the rule in front of them.
-
-The skill closes some of the gap between agent prose and a careful person's prose, not all of it.
+The skill applies when the agent decides the task calls for it. The output style applies to everything, reasoning included. Save `output-style.md` to `~/.claude/output-styles/human-narrative.md` and run `/output-style human-narrative`.
 
 ## Sources
 
-The rules borrow from the following.
+The rules are adapted from work in three areas: what separates model text from human text, how readers process a sentence, and which phrases recur in model output.
 
-- **Where the difference lives.** [StoryScope](https://arxiv.org/abs/2604.03136) (Russell, Rajendhran, Pham, Iyyer, and Wieting, 2026) told AI fiction from human fiction by discourse-level choices such as tidy plots, spelled-out themes, and less structural variety, without leaning on word choice. The chaining rules and the ban on stated morals come from here.
-- **Sentence rhythm.** [Tarım and Onan 2025](https://arxiv.org/abs/2507.10475) used burstiness, the variation in sentence length, as one of several stylometric measures that separate model text from human text. [Rodrigues, Sturm, and Pinheiro 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12969083/), in iScience, found that human texts vary more in length while model text runs more formal, structured, and upbeat. The rule to vary sentence length follows from both.
-- **Predictability.** [DetectGPT](https://arxiv.org/abs/2301.11305) (Mitchell, Lee, Khazatsky, Manning, and Finn, 2023), [Fast-DetectGPT](https://arxiv.org/abs/2310.05130) (Bao, Zhao, Teng, Yang, and Zhang, 2023), and [Binoculars](https://arxiv.org/abs/2401.12070) (Hans et al., 2024) detect model text from how predictable each token is given the ones before it. The concreteness and word-choice rules push against that signal.
-- **Hedging and repetition.** [Terčon and Dobrovoljc 2025](https://arxiv.org/abs/2510.05136) surveyed the lexical, syntactic, discourse, and stylistic patterns reported for machine-generated text. The rules against hedge words on known facts and against symmetric paragraph structure draw on that survey.
-- **Short samples.** [Przystalski, Argasiński, Grabska-Gradzińska, and Ochab](https://arxiv.org/abs/2507.00838), in Expert Systems with Applications 2026, separated human and model text on ten-sentence samples using stylometric features. That result is why the rules apply to commit messages and comments and not only to long documents.
-- **Information order.** [Gopen and Swan 1990](https://www.americanscientist.org/blog/the-long-view/the-science-of-scientific-writing), in American Scientist, described where readers expect old and new information to sit in a sentence: the topic at the start, the stress at the end. Joseph Williams's *Style: Lessons in Clarity and Grace* extends the idea to topic strings across a paragraph. The chain-by-topic rule and the paragraph-break rule come from these two.
-- **Filler phrases.** [DecEptioner's list of common AI phrases](https://deceptioner.site/blog/what-are-common-phrases-that-ai-uses) supplied the ban list.
+**What separates model text from human text**
+
+- [StoryScope](https://arxiv.org/abs/2604.03136) (Russell, Rajendhran, Pham, Iyyer, and Wieting, 2026) told AI fiction from human fiction by discourse-level choices such as tidy plots, spelled-out themes, and less structural variety, without relying on word choice. The chaining rules and the ban on stated morals come from here.
+- [Terčon and Dobrovoljc 2025](https://arxiv.org/abs/2510.05136) surveyed the lexical, syntactic, discourse, and stylistic patterns reported for machine-generated text. The rules against hedge words on known facts and against symmetric paragraph structure draw on it.
+- [Przystalski, Argasiński, Grabska-Gradzińska, and Ochab](https://arxiv.org/abs/2507.00838) (Expert Systems with Applications, 2026) separated human and model text on ten-sentence samples. That result is why the rules apply to short text like commit messages, not only to long documents.
+- [Tarım and Onan 2025](https://arxiv.org/abs/2507.10475) used burstiness, the variation in sentence length, as one of several stylometric measures separating model text from human text. [Rodrigues, Sturm, and Pinheiro 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12969083/), in iScience, found human texts vary more in length while model text runs more formal, structured, and upbeat. The rule to vary sentence length follows from both.
+- [DetectGPT](https://arxiv.org/abs/2301.11305) (Mitchell, Lee, Khazatsky, Manning, and Finn, 2023), [Fast-DetectGPT](https://arxiv.org/abs/2310.05130) (Bao, Zhao, Teng, Yang, and Zhang, 2023), and [Binoculars](https://arxiv.org/abs/2401.12070) (Hans et al., 2024) detect model text from how predictable each token is given the ones before it. The concreteness and word-choice rules push against that signal.
+
+**How readers process a sentence**
+
+- [Gopen and Swan 1990](https://www.americanscientist.org/blog/the-long-view/the-science-of-scientific-writing), in American Scientist, described where readers expect old and new information to sit: the topic at the start of a sentence, the stress at the end. Joseph Williams's *Style: Lessons in Clarity and Grace* extends the idea to topic strings across a paragraph. The chain-by-topic rule and the paragraph-break rule come from these two.
+
+**Which phrases recur in model output**
+
+- [DecEptioner's list of common AI phrases](https://deceptioner.site/blog/what-are-common-phrases-that-ai-uses) supplied the ban list.

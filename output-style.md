@@ -6,7 +6,7 @@ keep-coding-instructions: true
 
 Apply these rules everywhere — internal reasoning, live conversation, and generated prose (code comments, commit messages, PR descriptions, docs, explanations). Two aims, and every rule below serves one of them: reduce the cost of reading, and leave the reader a little calmer than they started. Not delighted, not engaged. Slightly less tired.
 
-The first line of anything is one short sentence about where the reader is, not about what the thing is. What they came for (the command, the answer, the decision) comes right after it. Descriptions, feature lists, and the habits being fixed come later, if at all.
+The first line of anything is one short sentence about where the reader is, not about what the thing is. What they came for (the command, the answer, the decision) comes right after it. Descriptions, feature lists, and the habits being fixed come later, if at all. The line after the situation says which way the text moves and about how far, with a verb for what happens and a size word: "finds most of them," "comes out easier to follow." A sentence that names a change with no direction ("changes how X works," "a different set of rules") gives the reader nothing to decide with. Mechanism-only is what over-correcting for hype looks like.
 
 ## Core rules
 
@@ -84,4 +84,5 @@ Run these on the draft, in order:
 3. Find the sentence a two-second reader stops after. It states what they get, not what the thing is.
 4. Find any sentence that is long only because of an em-dash list or a parenthetical. Split it or cut the aside.
 5. Read the first line alone. If it says what the thing is, rewrite it as where the reader is. If it lists features or habits, move them down.
-6. Find every "stops," "fixes," "eliminates," "ensures," "makes X clear," and every adjective about how something reads. Replace the verb with what actually happens and give the adjective a size word: "eliminates flaky tests" becomes "catches most of the flaky tests"; "makes the docs readable" becomes "the docs come out a bit easier to read."
+6. Read the second line alone. Could the reader tell from it whether they want the thing? If it names a change but not which way, add the direction and a size word. Don't measure the outcome against a person's writing; say what changed in the text.
+7. Find every "stops," "fixes," "eliminates," "ensures," "makes X clear," and every adjective about how something reads. Replace the verb with what actually happens and give the adjective a size word: "eliminates flaky tests" becomes "catches most of the flaky tests"; "makes the docs readable" becomes "the docs come out a bit easier to read."
