@@ -25,56 +25,7 @@ The skill file is about 16 KB. The agent carries all of it in context while the 
 
 ## Side by side
 
-Same model, same prompt, one run each way. Claude Sonnet, run as a subagent with no tools other than reading the rules file and the diff. The outputs are unedited except for an attribution footer the harness appended to one of them.
-
-**Prompt:** In three or four sentences, tell a new teammate why our API publishes events to a queue instead of calling the email service directly.
-
-Without the skill:
-
-> We publish events to a queue instead of calling the email service directly so a slow or failing email provider can't block or fail the API request that triggered it. This decouples the two services, letting the consumer retry deliveries independently and giving us natural backpressure and buffering during traffic spikes. It also means we can add more consumers later (e.g., analytics, notifications) without touching the API code, and we get built-in durability so events aren't lost if the email service is temporarily down.
-
-With the skill:
-
-> Calling the email service directly ties an API request to that service's uptime and latency, so a slow or down mailer stalls the caller. Publishing an event instead lets the API return as soon as the event is on the queue, and a consumer sends the email on its own schedule, with retries handled there instead of in the request path. It also means adding a second consumer, like a notification service, doesn't touch the API code at all.
-
-The first version opens on the decision and stacks four benefits. The second opens on the problem, and each sentence picks up the one before it. The difference here is modest.
-
-**Prompt:** Write the pull request description for this diff. The diff adds retry with exponential backoff to a webhook sender and two tests.
-
-Without the skill:
-
-> ## Add retry with backoff to webhook sender
->
-> Adds automatic retries to `webhooks.sender.send` so transient failures no longer fail a webhook delivery outright.
->
-> ### Changes
-> - `src/webhooks/sender.py`
->   - Retries up to `MAX_ATTEMPTS` (5) times on retryable HTTP status codes (`429, 500, 502, 503, 504`) or on a `requests.RequestException`.
->   - Non-retryable HTTP errors (e.g. 4xx other than 429) return `False` immediately without retrying.
->   - Uses exponential backoff (`BASE_DELAY_S * 2^(attempt-1)`) with random jitter (0–0.25s) between attempts.
->   - Returns `True` on the first successful (`resp.ok`) response, `False` if all attempts are exhausted.
-> - `tests/test_sender.py` (new)
->   - Verifies a request that fails twice with `503` then succeeds returns `True` after 3 calls.
->   - Verifies a `400` response is not retried and returns `False` after a single call.
-
-With the skill:
-
-> Retries webhook deliveries, so a flaky endpoint doesn't drop a payload on the first bad response.
->
-> ## What
-> - `send()` in `src/webhooks/sender.py` retries up to 5 attempts on `429`, `500`, `502`, `503`, `504`, and on request exceptions (connection errors, timeouts).
-> - Backoff is exponential (`0.5s, 1s, 2s, 4s`) plus up to 0.25s of random jitter between attempts.
-> - Any other status code (4xx aside from 429) returns `False` immediately, no retry.
-> - Adds `tests/test_sender.py`: retry-then-succeed on repeated 503s, and no-retry on a 400.
->
-> ## Why
-> `send()` previously made one request and returned `resp.ok`. A transient failure or a rate limit meant the webhook payload was silently dropped.
->
-> ## How to review
-> - `RETRY_STATUSES` and `MAX_ATTEMPTS` in `src/webhooks/sender.py` cover the retry policy — check the status set matches what the receiving endpoints actually return for transient failures.
-> - Tests mock `time.sleep`, so they don't cover the actual delay values.
-
-The first version restates the diff. The second says what a reviewer should look at and names the gap the tests leave. It still has an em-dash in the review section.
+Same model, same prompt, one run with the skill loaded and one without. Neither output is edited.
 
 **Prompt:** Write the opening of the README for `envcheck`, a CLI that compares a project's .env file against its .env.example and reports keys that are missing or extra. Two or three sentences, then the install command.
 
@@ -94,7 +45,7 @@ With the skill:
 > pipx install envcheck
 > ```
 
-The first version opens with what the tool is. The second opens with the situation the reader is already in, then says what the tool does about it.
+The first opens with what the tool is. The second opens with the situation the reader is already in, then says what the tool does about it.
 
 ## Install by hand
 
