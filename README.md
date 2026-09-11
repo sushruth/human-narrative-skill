@@ -16,12 +16,13 @@ Replies, docs, PR descriptions, code comments, and commit messages come out in a
 - Facts are stated flat. Judgments carry a size word. "Verified" appears only when something was run.
 - Nothing ends on a moral or a summary, and open questions are left open.
 - The usual filler words are banned, along with the mid-sentence run of examples between em-dashes.
+- Sections answer the reader's questions. A benefits section, a "do X, not Y" sentence, and a line saying what kind of document this is all go, and the asker's hedges and shorthand are translated for the reader.
 
 Code is left alone. The rules apply to prose, and the Claude Code output style keeps the coding instructions in place.
 
 The skill is not built to pass AI detectors. Several of its sources are detector papers, and they are used to describe what model text does, not as a target to beat.
 
-The skill file is about 16 KB. The agent carries all of it in context while the skill is active.
+The skill file is about 20 KB. The agent carries all of it in context while the skill is active.
 
 ## Side by side
 
