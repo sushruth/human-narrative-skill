@@ -26,35 +26,27 @@ The skill file is about 17 KB. The agent carries all of it in context while the 
 
 ## Side by side
 
-This is the clearest of 30 pairs I read, one run each on Claude Code (Sonnet), same prompt, neither output edited. Most pairs changed less, and a few came out worse; [example-runs.md](example-runs.md) has all of them.
+This is the clearest of 30 pairs I read, one run each on Claude Code (Sonnet), same prompt. The outputs are unedited except that the code fence each draft was wrapped in is removed, so they render. Most pairs changed less, and a few came out worse; [example-runs.md](example-runs.md) has all of them.
 
 **Prompt:** Write the opening of the README for `tzsplit`, a CLI that reads a CSV of timestamps and splits it into one file per local calendar day, using each row's own timezone column. Two or three sentences, then the install command (`cargo install tzsplit`).
 
 Without the skill:
 
-`````
-```markdown
-# tzsplit
-
-`tzsplit` reads a CSV of timestamps and splits it into one file per local calendar day. Each row is bucketed using its own timezone column, so a row stamped 23:30 in `America/Los_Angeles` lands on that Pacific day, not the UTC one.
-
-    cargo install tzsplit
-```
-
-I didn't state the timezone column's format (IANA names vs. offsets), the output filenames, or the flags, because I don't know them. Add those once they're settled.
-`````
+> # tzsplit
+>
+> `tzsplit` reads a CSV of timestamps and splits it into one file per local calendar day. Each row is bucketed using its own timezone column, so a row stamped 23:30 in `America/Los_Angeles` lands on that Pacific day, not the UTC one.
+>
+>     cargo install tzsplit
+>
+> I didn't state the timezone column's format (IANA names vs. offsets), the output filenames, or the flags, because I don't know them. Add those once they're settled.
 
 With the skill:
 
-`````
-```markdown
-# tzsplit
-
-Each row in a multi-timezone CSV reaches midnight at a different moment. `tzsplit` reads a CSV of timestamps and writes one file per local calendar day, using each row's own timezone column to decide which day it belongs to.
-
-    cargo install tzsplit
-```
-`````
+> # tzsplit
+>
+> Each row in a multi-timezone CSV reaches midnight at a different moment. `tzsplit` reads a CSV of timestamps and writes one file per local calendar day, using each row's own timezone column to decide which day it belongs to.
+>
+>     cargo install tzsplit
 
 The first opens with what the tool does and ends with a note about what the writer left out. The second opens with the situation the reader is already in, then says what the tool does about it.
 
